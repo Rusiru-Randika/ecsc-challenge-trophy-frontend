@@ -1,31 +1,33 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const AdminLogin = () => {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError('');
+    setError("");
     setLoading(true);
 
     try {
-      const response = await axios.post('/api/auth/login', {
+      const response = await axios.post("/api/auth/login", {
         username,
-        password
+        password,
       });
 
       if (response.data.success) {
-        localStorage.setItem('token', response.data.token);
-        navigate('/admin');
+        localStorage.setItem("token", response.data.token);
+        navigate("/admin");
       }
     } catch (err) {
-      setError(err.response?.data?.message || 'Login failed. Please try again.');
+      setError(
+        err.response?.data?.message || "Login failed. Please try again."
+      );
     } finally {
       setLoading(false);
     }
@@ -38,7 +40,9 @@ const AdminLogin = () => {
           <div className="text-center mb-6">
             <div className="text-5xl mb-3">🔐</div>
             <h2 className="text-2xl font-bold text-gray-800">Admin Login</h2>
-            <p className="text-gray-600 mt-2">Sign in to manage the scoreboard</p>
+            <p className="text-gray-600 mt-2">
+              Sign in to manage the scoreboard
+            </p>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-4">
@@ -81,19 +85,11 @@ const AdminLogin = () => {
               disabled={loading}
               className="btn-primary w-full disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              {loading ? 'Signing in...' : 'Sign In'}
+              {loading ? "Signing in..." : "Sign In"}
             </button>
           </form>
 
-          <div className="mt-6 p-4 bg-blue-50 rounded-lg">
-            <p className="text-sm text-blue-800">
-              <strong>Default Credentials:</strong>
-              <br />
-              Username: <code className="bg-blue-100 px-2 py-1 rounded">admin</code>
-              <br />
-              Password: <code className="bg-blue-100 px-2 py-1 rounded">admin123</code>
-            </p>
-          </div>
+          {/* Default credentials removed for security. Please use real admin account to sign in. */}
         </div>
       </div>
     </div>
@@ -101,4 +97,3 @@ const AdminLogin = () => {
 };
 
 export default AdminLogin;
-
